@@ -1,73 +1,52 @@
 package com.javaguru.shoppinglist;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import com.javaguru.shoppinglist.console.ConsoleUI;
+import com.javaguru.shoppinglist.repository.ProductRepository;
+import com.javaguru.shoppinglist.service.ProductService;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductDiscountMaxValueValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductDiscountMinValueValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductDiscountValueFromPriceValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductNameMaxLengthValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductNameMinLengthValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductNameNotNullValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductNameUniqueValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductPriceMinValueValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductValidationRule;
+import com.javaguru.shoppinglist.service.ProductValidationService.ProductValidationService;
 
-class ShoppingListApplication {
+import java.util.HashSet;
+import java.util.Set;
+
+public class ShoppingListApplication {
 
     public static void main(String[] args) {
-        Map<Long, Product> productRepository = new HashMap<>();
-        Long productIdSequence = 0L;
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-            try {
-                System.out.println("1. Create product");
-                System.out.println("2. Find product by id");
-                System.out.println("3. Exit");
-                Integer userInput = Integer.valueOf(scanner.nextLine());
-                switch (userInput) {
-                    case 1:
-                        String name="";
-                        do  {
-                            System.out.println("Enter product name: ");
-                            name = scanner.nextLine();
-                            if(name.length()<3 || name.length()>32){
-                                System.out.println("Length of name value must be between 3 and 32!");
-                            }
-                        } while(name.length()<3 || name.length()>32);
-                        BigDecimal price = new BigDecimal(0);
-                        do {
-                            System.out.println("Enter product price: ");
-                            price = new BigDecimal(scanner.nextLine());
-                            if (price.compareTo(BigDecimal.valueOf(0))<=0){
-                                System.out.println("Price value must be greater then 0!");
-                            }
-                        } while(price.compareTo(BigDecimal.valueOf(0))<=0);
-                        System.out.println("Enter product category: ");
-                        String category = scanner.nextLine();
-                        Integer discount=0;
-                        do {
-                            System.out.println("Enter product discount: ");
-                            discount = new Integer(scanner.nextLine());
-                            if(discount>100){
-                                System.out.println("Discount value must be less than 100!");
-                            }
-                        } while(discount>100);
-                        System.out.println("Enter product description: ");
-                        String description = scanner.nextLine();
-                        Product product = new Product();
-                        product.setName(name);
-                        product.setPrice(price);
-                        product.setCategory(category);
-                        product.setDiscount(discount);
-                        product.setDescription(description);
-                        product.setId(productIdSequence);
-                        productRepository.put(productIdSequence, product);
-                        productIdSequence++;
-                        System.out.println("Result: " + product.getId());
-                    case 2:
-                        System.out.println("Enter product id: ");
-                        long id = scanner.nextLong();
-                        Product findProductResult = productRepository.get(id);
-                        System.out.println(findProductResult);
-                    case 3:
-                        return;
-                }
-            } catch (Exception e) {
-                System.out.println("Error! Please try again.");
-            }
-        }
+
+        ProductRepository repository = new ProductRepository();
+
+        ProductValidationRule productNameNotNullValidationRule = new ProductNameNotNullValidationRule();
+        ProductValidationRule productNameMinLengthValidationRule = new ProductNameMinLengthValidationRule();
+        ProductValidationRule productNameMaxLengthValidationRule = new ProductNameMaxLengthValidationRule();
+        ProductValidationRule productNameUniqueValidationRule = new ProductNameUniqueValidationRule(repository);
+        ProductValidationRule productPriceMinValueValidationRule = new ProductPriceMinValueValidationRule();
+        ProductValidationRule productDiscountMinValueValidationRule = new ProductDiscountMinValueValidationRule();
+        ProductValidationRule productDiscountMaxValueValidationRule = new ProductDiscountMaxValueValidationRule();
+        ProductValidationRule productDiscountValueFromPriceValidationRule = new ProductDiscountValueFromPriceValidationRule();
+        Set<ProductValidationRule> rules = new HashSet<>();
+        rules.add(productNameNotNullValidationRule);
+        rules.add(productNameMinLengthValidationRule);
+        rules.add(productNameMaxLengthValidationRule);
+        rules.add(productNameUniqueValidationRule);
+        rules.add(productPriceMinValueValidationRule);
+        rules.add(productDiscountMinValueValidationRule);
+        rules.add(productDiscountMaxValueValidationRule);
+        rules.add(productDiscountValueFromPriceValidationRule);
+
+        ProductValidationService validationService = new ProductValidationService(rules);
+
+        ProductService productService = new ProductService(repository, validationService);
+
+        ConsoleUI consoleUI = new ConsoleUI(productService);
+        consoleUI.execute();
     }
+
 }
