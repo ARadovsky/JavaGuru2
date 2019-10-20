@@ -4,12 +4,14 @@ import com.javaguru.shoppinglist.domain.Product;
 
 public class ProductNameMaxLengthValidationRule implements ProductValidationRule {
 
+    private final int NAME_LENGTH_MAX_VALUE = 32;
+
     @Override
     public void validate(Product product) {
         checkNotNull(product);
-        int maxNameLength = 32;
-        if (product.getName().length() > maxNameLength) {
-            throw new ProductValidationException("Product name must be less or equal " + maxNameLength);
+
+        if (product.getName().length() > NAME_LENGTH_MAX_VALUE) {
+            throw new ProductValidationException("Product name must be less or equal " + NAME_LENGTH_MAX_VALUE);
         }
     }
 }
