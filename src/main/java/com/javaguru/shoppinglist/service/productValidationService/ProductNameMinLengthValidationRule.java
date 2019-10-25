@@ -1,10 +1,10 @@
-package com.javaguru.shoppinglist.service.ProductValidationService;
+package com.javaguru.shoppinglist.service.productValidationService;
 
 import com.javaguru.shoppinglist.domain.Product;
 
 public class ProductNameMinLengthValidationRule implements ProductValidationRule {
 
-    private final int NAME_LENGTH_MIN_VALUE = 3;
+    private static final int NAME_LENGTH_MIN_VALUE = 3;
 
     @Override
     public void validate(Product product) {

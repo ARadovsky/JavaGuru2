@@ -1,4 +1,4 @@
-package com.javaguru.shoppinglist.service.ProductValidationService;
+package com.javaguru.shoppinglist.service.productValidationService;
 
 import com.javaguru.shoppinglist.domain.Product;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class ProductDiscountMaxValueValidationRule implements ProductValidationRule {
 
-    private final BigDecimal DISCOUNT_MAX_VALUE = new BigDecimal(100);
+    private static final BigDecimal DISCOUNT_MAX_VALUE = new BigDecimal(100);
 
     @Override
     public void validate(Product product) {

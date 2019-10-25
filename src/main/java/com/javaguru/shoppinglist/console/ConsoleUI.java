@@ -2,7 +2,7 @@ package com.javaguru.shoppinglist.console;
 
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
-import com.javaguru.shoppinglist.service.ProductValidationService.ProductValidationException;
+import com.javaguru.shoppinglist.service.productValidationService.ProductValidationException;
 
 import java.math.BigDecimal;
 import java.util.Scanner;

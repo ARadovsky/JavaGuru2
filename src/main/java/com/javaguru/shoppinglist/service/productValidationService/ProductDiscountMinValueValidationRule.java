@@ -1,4 +1,4 @@
-package com.javaguru.shoppinglist.service.ProductValidationService;
+package com.javaguru.shoppinglist.service.productValidationService;
 
 import com.javaguru.shoppinglist.domain.Product;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class ProductDiscountMinValueValidationRule implements ProductValidationRule {
 
-    private final BigDecimal DISCOUNT_MIN_VALUE = new BigDecimal(0);
+    private static final BigDecimal DISCOUNT_MIN_VALUE = new BigDecimal(0);
 
     @Override
     public void validate(Product product) {
