@@ -1,4 +1,4 @@
-package com.javaguru.shoppinglist.service.ProductValidationService;
+package com.javaguru.shoppinglist.service.productValidationService;
 
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.ProductRepository;

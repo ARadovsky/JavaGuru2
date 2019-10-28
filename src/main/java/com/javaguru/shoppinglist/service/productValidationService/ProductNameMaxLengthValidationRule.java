@@ -1,10 +1,10 @@
-package com.javaguru.shoppinglist.service.ProductValidationService;
+package com.javaguru.shoppinglist.service.productValidationService;
 
 import com.javaguru.shoppinglist.domain.Product;
 
 public class ProductNameMaxLengthValidationRule implements ProductValidationRule {
 
-    private final int NAME_LENGTH_MAX_VALUE = 32;
+    private static final int NAME_LENGTH_MAX_VALUE = 32;
 
     @Override
     public void validate(Product product) {
