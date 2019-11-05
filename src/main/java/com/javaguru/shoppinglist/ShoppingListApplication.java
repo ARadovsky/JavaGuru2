@@ -1,5 +1,6 @@
 package com.javaguru.shoppinglist;
 
+import com.javaguru.shoppinglist.config.AppConfig;
 import com.javaguru.shoppinglist.console.ConsoleUI;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.ProductService;
@@ -14,39 +15,18 @@ import com.javaguru.shoppinglist.service.productValidationService.ProductPriceMi
 import com.javaguru.shoppinglist.service.productValidationService.ProductValidationRule;
 import com.javaguru.shoppinglist.service.productValidationService.ProductValidationService;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class ShoppingListApplication {
 
     public static void main(String[] args) {
-
-        ProductRepository repository = new ProductRepository();
-
-        ProductValidationRule productNameNotNullValidationRule = new ProductNameNotNullValidationRule();
-        ProductValidationRule productNameMinLengthValidationRule = new ProductNameMinLengthValidationRule();
-        ProductValidationRule productNameMaxLengthValidationRule = new ProductNameMaxLengthValidationRule();
-        ProductValidationRule productNameUniqueValidationRule = new ProductNameUniqueValidationRule(repository);
-        ProductValidationRule productPriceMinValueValidationRule = new ProductPriceMinValueValidationRule();
-        ProductValidationRule productDiscountMinValueValidationRule = new ProductDiscountMinValueValidationRule();
-        ProductValidationRule productDiscountMaxValueValidationRule = new ProductDiscountMaxValueValidationRule();
-        ProductValidationRule productDiscountValueFromPriceValidationRule = new ProductDiscountValueFromPriceValidationRule();
-        Set<ProductValidationRule> rules = new HashSet<>();
-        rules.add(productNameNotNullValidationRule);
-        rules.add(productNameMinLengthValidationRule);
-        rules.add(productNameMaxLengthValidationRule);
-        rules.add(productNameUniqueValidationRule);
-        rules.add(productPriceMinValueValidationRule);
-        rules.add(productDiscountMinValueValidationRule);
-        rules.add(productDiscountMaxValueValidationRule);
-        rules.add(productDiscountValueFromPriceValidationRule);
-
-        ProductValidationService validationService = new ProductValidationService(rules);
-
-        ProductService productService = new ProductService(repository, validationService);
-
-        ConsoleUI consoleUI = new ConsoleUI(productService);
-        consoleUI.execute();
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        ConsoleUI console = context.getBean(ConsoleUI.class);
+        console.execute();
     }
 
 }

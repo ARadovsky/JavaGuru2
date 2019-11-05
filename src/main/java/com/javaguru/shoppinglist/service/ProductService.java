@@ -4,13 +4,18 @@ import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.productValidationService.ProductValidationService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.NoSuchElementException;
 
+@Component
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductValidationService validationService;
 
+    @Autowired
     public ProductService(ProductRepository productRepository, ProductValidationService validationService) {
         this.productRepository = productRepository;
         this.validationService = validationService;
