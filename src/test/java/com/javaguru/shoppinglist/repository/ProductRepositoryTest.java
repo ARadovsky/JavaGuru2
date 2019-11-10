@@ -18,7 +18,7 @@ public class ProductRepositoryTest {
     private static final BigDecimal PRODUCT_DISCOUNT = new BigDecimal(50);
     private static final String PRODUCT_DESCRIPTION = "Ecuador fruits";
 
-    private ProductRepository victim = new ProductRepository();
+    private ProductRepositoryInMemory victim = new ProductRepositoryInMemory();
 
     private Product product = product();
 

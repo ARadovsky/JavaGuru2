@@ -2,29 +2,13 @@ package com.javaguru.shoppinglist.repository;
 
 import com.javaguru.shoppinglist.domain.Product;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-@Component
-public class ProductRepository {
+public interface ProductRepository {
 
-    private Long productIdSequence = 0L;
-    private Map<Long, Product> products = new HashMap<>();
+    Product save(Product product);
 
-    public Product save(Product product) {
-        product.setId(productIdSequence++);
-        products.put(product.getId(), product);
-        return product;
-    }
+    Optional<Product> findProductById(Long id);
 
-    public Optional<Product> findProductById(Long id) {
-        return Optional.ofNullable(products.get(id));
-    }
-
-    public boolean isProductNameUnique(String name) {
-        return products.values().stream().anyMatch(product -> product.getName().equalsIgnoreCase(name));
-    }
+    boolean isProductNameUnique(String name);
 }
