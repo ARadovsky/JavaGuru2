@@ -1,79 +1,44 @@
 package com.javaguru.shoppinglist.console;
 
-import com.javaguru.shoppinglist.domain.Product;
-import com.javaguru.shoppinglist.service.ProductService;
+import com.javaguru.shoppinglist.console.Menu.MenuItems;
 import com.javaguru.shoppinglist.service.productValidationService.ProductValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 @Component
 public class ConsoleUI {
 
-    private final ProductService productService;
+    private final List<MenuItems> items;
 
     @Autowired
-    public ConsoleUI(ProductService productService) {
-        this.productService = productService;
+    public ConsoleUI(List<MenuItems> items) {
+        this.items = items;
     }
 
-    public void execute() {
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
+    public void run() {
+
+        Scanner scanner = new Scanner(System.in);
+        int userResponse = 0;
+
+        while (userResponse >= 0) {
+            printMenu();
             try {
-                System.out.println("1. Create product");
-                System.out.println("2. Find product by id");
-                System.out.println("3. Exit");
-                Integer userInput = Integer.valueOf(scanner.nextLine());
-                switch (userInput) {
-                    case 1:
-                        addProduct();
-                        break;
-                    case 2:
-                        findProduct();
-                        break;
-                    case 3:
-                        return;
-                }
+                userResponse = Integer.parseInt(scanner.nextLine());
+                items.get(userResponse).execute();
             } catch (ProductValidationException e) {
                 System.out.println("Error! " + e.getMessage());
             }
         }
     }
 
-    private void addProduct() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter product name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter product price: ");
-        BigDecimal price = new BigDecimal(scanner.nextLine());
-        System.out.println("Enter product category: ");
-        String category = scanner.nextLine();
-        System.out.println("Enter product discount: ");
-        BigDecimal discount = new BigDecimal(scanner.nextLine());
-        System.out.println("Enter product description: ");
-        String description = scanner.nextLine();
-
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        product.setCategory(category);
-        product.setDiscount(discount);
-        product.setDescription(description);
-
-        Long id = productService.addProduct(product);
-        System.out.println("Result: " + id);
-    }
-
-    private void findProduct() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter product id: ");
-        long id = scanner.nextLong();
-        Product product = productService.findProductById(id);
-        System.out.println(product);
+    private void printMenu() {
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println(i + ". " + items.get(i));
+        }
     }
 
 }

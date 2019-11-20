@@ -6,6 +6,7 @@ import com.javaguru.shoppinglist.service.productValidationService.ProductValidat
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -21,6 +22,7 @@ public class ProductService {
         this.validationService = validationService;
     }
 
+    @Transactional
     public Long addProduct(Product product) {
         validationService.validate(product);
         Product createdProduct = productRepository.save(product);
