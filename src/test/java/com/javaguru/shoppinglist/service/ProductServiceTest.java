@@ -1,7 +1,7 @@
 package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.domain.Product;
-import com.javaguru.shoppinglist.repository.ProductRepositoryInMemory;
+import com.javaguru.shoppinglist.repository.ProductRepositoryHibernate;
 import com.javaguru.shoppinglist.service.productValidationService.ProductValidationService;
 
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class ProductServiceTest {
     private static final String PRODUCT_DESCRIPTION = "Ecuador fruits";
 
     @Mock
-    private ProductRepositoryInMemory repository;
+    private ProductRepositoryHibernate repository;
 
     @Mock
     private ProductValidationService validationService;

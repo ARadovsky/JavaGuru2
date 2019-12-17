@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -38,6 +39,12 @@ public class ProductRepositoryHibernate implements ProductRepository {
     }
 
     @Override
+    public List<Product> showAllProducts() {
+        return sessionFactory.getCurrentSession().createCriteria(Product.class)
+                .list();
+    }
+
+    @Override
     public boolean isProductNameUnique(String name) {
         String query = "SELECT CASE WHEN count(*)> 0 " +
                 "THEN true ELSE false END " +
@@ -47,4 +54,7 @@ public class ProductRepositoryHibernate implements ProductRepository {
                 .uniqueResult();
     }
 
+    public void delete(Product product) {
+        sessionFactory.getCurrentSession().delete(product);
+    }
 }

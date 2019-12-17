@@ -1,7 +1,7 @@
 package com.javaguru.shoppinglist.service.productValidationService;
 
 import com.javaguru.shoppinglist.domain.Product;
-import com.javaguru.shoppinglist.repository.ProductRepositoryInMemory;
+import com.javaguru.shoppinglist.repository.ProductRepositoryHibernate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ public class ProductNameUniqueValidationRuleTest {
     private static final String PRODUCT_DESCRIPTION = "Ecuador fruits";
 
     @Mock
-    private ProductRepositoryInMemory productRepository;
+    private ProductRepositoryHibernate productRepository;
 
     @Spy
     @InjectMocks

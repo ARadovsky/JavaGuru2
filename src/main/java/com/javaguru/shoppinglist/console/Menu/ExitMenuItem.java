@@ -3,7 +3,7 @@ package com.javaguru.shoppinglist.console.Menu;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExitMenuItem implements  MenuItems {
+public class ExitMenuItem implements MenuItems {
 
     private static final String MENUITEM_NAME = "Exit";
 

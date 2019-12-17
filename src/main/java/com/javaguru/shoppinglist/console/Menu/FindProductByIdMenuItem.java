@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
-public class FindProductByIdMenuItem implements  MenuItems{
+public class FindProductByIdMenuItem implements MenuItems {
 
     private static final String MENUITEM_NAME = "Find product by id";
 
     private final ProductService productService;
 
-    public FindProductByIdMenuItem(ProductService productService){
-        this.productService=productService;
+    public FindProductByIdMenuItem(ProductService productService) {
+        this.productService = productService;
     }
 
     @Override
